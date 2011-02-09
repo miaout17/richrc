@@ -29,5 +29,5 @@ Fell free to report issues in Github's issue tracker.
 
 ## License
 
-See MIT-License for details. 
+See MIT-LICENSE file for details. 
 
