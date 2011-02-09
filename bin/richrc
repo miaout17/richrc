@@ -1,3 +1,13 @@
 #!/usr/bin/env ruby
 
 require "richrc"
+
+rails_loader = Richrc::RailsLoader.new
+if rails_loader.app_path
+  Richrc.wirble!
+  Richrc.hirb!
+  rails_loader.start_console! 
+else
+  puts "You are not in rails app path!"
+end
+
