@@ -11,8 +11,10 @@ gem 'hirb', :require => 'hirb' do
   Hirb.enable
 end
 
+# gem 'awesome_print', :require => 'ap'
+
 # This code block would be execuded after rails environment is loaded
-environment do
-  # ActiveRecord::Base.logger = Logger.new(STDOUT)
-end
+# environment do
+#   ActiveRecord::Base.logger = Logger.new(STDOUT)
+# end
 

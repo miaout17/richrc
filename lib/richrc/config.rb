@@ -14,6 +14,7 @@ module Richrc
     end
 
     def gem(name, options={}, &block)
+      #TODO: gem version
       options = options.merge(:name => name)
       options = options.merge(:on_success => block) if block
       config.gems << options
