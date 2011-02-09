@@ -5,7 +5,8 @@ require 'richrc'
 if ARGV.empty?
   Richrc::RailsLoader.new.run!
 else
-  # thor is not loaded when executing rails console
+  # In order to keep gemset clean, thor is not loaded when executing rails console
+  # Thus we need to require rubygems and thor here
   require 'rubygems'
   gem 'thor'
   require 'thor'
