@@ -1,5 +1,14 @@
 #!/usr/bin/env ruby
 
-require "richrc"
+require 'richrc'
 
-Richrc::RailsLoader.new.run!
+if ARGV.empty?
+  Richrc::RailsLoader.new.run!
+else
+  # thor is not loaded when executing rails console
+  require 'rubygems'
+  gem 'thor'
+  require 'thor'
+  require 'richrc/cli'
+  Richrc::CLI.start
+end
