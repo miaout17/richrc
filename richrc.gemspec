@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["miaout17"]
   s.email       = ["miaout17 at gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{Load Wirble and Hirb in Rails 3 without editing Gemfile}
+  s.summary     = %q{Rich Rails Console}
   s.description = %q{Load Wirble and Hirb in Rails 3 without editing Gemfile}
 
   s.rubyforge_project = "richrc"
