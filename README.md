@@ -12,12 +12,14 @@ Inspired from [xdite's article](http://blog.xdite.net/?p=1839), the extra gems c
 
 P.S. In RichRC's gemspec, it doesn't depend on hirb and wirble. If some of the gems are missing, RichRC simply ignore them.
 
-## Running
+## Running RichRC
 
     $ cd railsapp
     $ richrc # instead of `rails console`
 
 That's all :)
+
+The original rails console is not affected. If problems occured with RichRC, you can simply fallback to `rails console`.
 
 ## Possible Issues
 
