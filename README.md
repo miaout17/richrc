@@ -4,7 +4,7 @@ RichRC (Rich Rails Console) loads [hirb](https://github.com/cldwalker/hirb) and 
 
 Hirb and wirble are excellent IRB-extension which makes data more readable. In rails 2, we can simply require gems in IRB and start using them. However, In Rails 3, it's needed to add gems into `Gemfile` before using it. Sometimes it doesn't make sense to add IRB-extension gems into rails app Gemfile (Maybe not all developers want hirb and wirble, and it's annoying to add the gems whenever cloning a project). 
 
-Inspired from [xdite's article](http://blog.xdite.net/?p=1839), the extra gems cloud be loaded before `Bundler.setup` is invoked. RichRC mimics the bootstrap process of rails console, load and initialize extra gems, and start console normally. 
+Inspired from [xdite's article](http://blog.xdite.net/?p=1839), the extra gems cloud be loaded before `Bundler.setup` is invoked. RichRC mimics the bootstrap process of rails console, loads and initializes extra gems, and starts console normally. 
 
 ## Installation
 
