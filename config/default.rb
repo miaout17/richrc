@@ -1,4 +1,5 @@
 before(:setup_bundler) do
+  # You can load extra gems here.
 
   require 'irb'
 
