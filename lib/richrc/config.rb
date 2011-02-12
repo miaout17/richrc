@@ -1,36 +1,23 @@
 module Richrc
+
   class ConfigLoader
 
-    def self.load(path)
-      self.new.tap do |loader|
-        loader.instance_eval(File.read(path))
-      end.config
-    end
-    
-    attr_reader :config
-
-    def initialize
-      @config = Config.new
+    def initialize(rails_loader)
+      @rails_loader = rails_loader
     end
 
-    def gem(name, options={}, &block)
-      #TODO: gem version
-      options = options.merge(:name => name)
-      options = options.merge(:on_success => block) if block
-      config.gems << options
+    def load(path)
+      instance_eval(File.read(path))
     end
 
-    def environment(&block)
-      config.on_environment_loaded = block
+    def method_missing(method, *args, &block)
+      if %w{before after}.include?(method.to_s)
+        @rails_loader.add_callback(method.to_sym, args.first, block)
+      else
+        super
+      end
     end
 
-  end
-
-  class Config
-    attr_accessor :gems, :on_environment_loaded
-    def initialize
-      @gems = []
-    end
   end
 
 end

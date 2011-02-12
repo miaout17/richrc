@@ -2,9 +2,13 @@ module Richrc
   class RailsLoader
     SCRIPT_RAILS = File.join('script', 'rails')
 
-    def run!
+    def initialize
+      @callbacks = Hash.new []
+    end
+
+    def run
       if app_path
-        start_console!
+        start_console
       else
         puts "You are not in rails app path!"
       end
@@ -12,6 +16,12 @@ module Richrc
 
     def app_path
       @app_path ||= find_app_path
+    end
+
+    def add_callback(timing, kind, task)
+      key = [timing, kind]
+      @callbacks[key] = [] unless @callbacks.has_key?(key)
+      @callbacks[key] << task
     end
 
     private
@@ -30,33 +40,26 @@ module Richrc
       nil
     end
 
-    def try_load_gem(options)
-      #TODO: gem version
-      gem_name = options[:name]
-      begin
-        gem gem_name
-        require options[:require] if options[:require]
-        options[:on_success].call if options[:on_success]
-        msg "Gem #{gem_name}: Loaded successfully"
-      rescue LoadError
-        msg "Gem #{gem_name}: Failed to load, is it installed?"
-      end
+    def run_callbacks(kind)
+      @callbacks[[:before, kind]].each { |blk| Object.new.instance_eval(&blk) }
+      yield
+      @callbacks[[:after, kind]].each { |blk| Object.new.instance_eval(&blk) }
     end
 
-    def start_console!
+    def start_console
       puts "Loading RichRC environment"
       load_config
 
-      require 'irb'
-      @config.gems.each { |g| try_load_gem(g) }
+      run_callbacks(:setup_bundler) do
+        require File.expand_path(File.join(app_path, "config/boot"))
+      end
 
-      require File.expand_path(File.join(app_path, "config/boot"))
-      require 'rails/commands/console'
-      require File.expand_path(File.join(app_path, "config/application"))
+      run_callbacks(:load_application) do
+        require 'rails/commands/console'
+        require File.expand_path(File.join(app_path, "config/application"))
+        Rails.application.require_environment!
+      end
 
-      @config.on_environment_loaded.call if @config.on_environment_loaded
-
-      Rails.application.require_environment!
       Rails::Console.start(Rails.application)
     end
 
@@ -67,19 +70,15 @@ module Richrc
 
       [current_config, home_config, default_config].each do |path|
         if File.exists?(path)
-          @config = ConfigLoader.load(path)
+          ConfigLoader.new(self).load(path)
           if path==default_config
-            msg "Loading default config file"
+            puts "RichRC: Loading default config file"
           else
-            msg "Loading config: #{path}"
+            puts "RichRC: Loading config: #{path}"
           end
           break
         end
       end
-    end
-
-    def msg(s)
-      puts "RichRC: #{s}"
     end
 
   end

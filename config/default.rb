@@ -1,20 +1,27 @@
-# This is equivalent to
-# gem 'wirble'
-# require 'wirble'
-# The code block will be executed only if gem is loaded successfully
-gem 'wirble', :require => 'wirble' do
-  Wirble.init
-  Wirble.colorize
+before(:setup_bundler) do
+
+  require 'irb'
+
+  begin
+    gem 'wirble'
+    require 'wirble'
+    Wirble.init
+    Wirble.colorize
+  rescue LoadError
+    puts "Failed to load wirble"
+  end
+
+  begin
+    gem 'hirb'
+    require 'hirb'
+    Hirb.enable
+  rescue LoadError
+    puts "Failed to load hirb"
+  end
+
 end
 
-gem 'hirb', :require => 'hirb' do
-  Hirb.enable
+after(:load_application) do
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
 end
-
-# gem 'awesome_print', :require => 'ap'
-
-# This code block would be execuded after rails environment is loaded
-# environment do
-#   ActiveRecord::Base.logger = Logger.new(STDOUT)
-# end
 
