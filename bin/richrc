@@ -7,7 +7,6 @@ if ARGV.empty?
 else
   # In order to keep gemset clean, thor is not loaded when executing rails console
   # Thus we need to require rubygems and thor here
-  require 'rubygems'
   gem 'thor'
   require 'thor'
   require 'richrc/cli'
