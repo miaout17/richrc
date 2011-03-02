@@ -8,16 +8,23 @@ before(:setup_bundler) do
     require 'wirble'
     Wirble.init
     Wirble.colorize
+    puts "Wirble Loaded"
   rescue LoadError
-    puts "Failed to load wirble"
   end
 
   begin
     gem 'hirb'
     require 'hirb'
     Hirb.enable
+    puts "Hirb Loaded"
   rescue LoadError
-    puts "Failed to load hirb"
+  end
+
+  begin
+    gem 'hirb-unicode'
+    require 'hirb/unicode'
+    puts "Hirb-unicode loaded"
+  rescue LoadError
   end
 
 end
